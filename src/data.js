@@ -16,15 +16,10 @@ export const papers = [
  {year:2015,title:'Intuitive 3D cubic style modeling system',venue:'SIGGRAPH Asia Posters',type:'Poster',url:'https://dblp.org/rec/conf/siggraph/HuWCWC15',tags:['CG']},
  {year:2014,title:'A Sketch-Based Generation System for Oriental Cloud Pattern Design',venue:'Smart Graphics',type:'Conference',url:'https://dblp.org/rec/conf/sg/ChiHJ14',tags:['CG']}
 ]
-export const projects = [
- {name:'Digital Twin-based Smart Sports Motion Learning and Visual Feedback',description:'Research direction: pose estimation, temporal alignment, interpretable feedback and virtual coaching.',status:'Research direction'},
- {name:'Digital Twin-based Virtual Teaching Assistant',description:'Research direction: knowledge-grounded dialogue, multimodal interaction and learning analytics.',status:'Research direction'},
- {name:'Visual Analytics of Sequential Data',description:'Research direction: event sequences, interactive exploration and human-centered visual reasoning.',status:'Research direction'}]
-
 export const courses = [
- {code:'CGV 01',icon:'◈',en:'Unity 3D Virtual Reality Applications',zh:'Unity 3D 虛擬實境應用',description:'Interactive 3D scenes, Unity scripting, physics, animation, UI and immersive prototyping.',tags:['Unity','3D','VR']},
- {code:'CGV 02',icon:'▥',en:'Data Analysis and Visualization',zh:'資料分析與視覺化',description:'Visual encoding, data abstraction, D3.js dashboards, interactive visual analytics and design evaluation.',tags:['D3.js','Visual Analytics','Dashboard']},
- {code:'CGV 03',icon:'◎',en:'Human–Computer Interaction',zh:'人機介面與互動設計',description:'Human-centered research, personas, scenarios, prototyping and usability evaluation.',tags:['HCI','UX','Prototyping']},
- {code:'CGV 04',icon:'⌘',en:'Assembly Language',zh:'組合語言',description:'Computer architecture fundamentals, instruction sets, low-level programming and debugging.',tags:['Architecture','Low-level']},
- {code:'CGV 05',icon:'◇',en:'Introduction to Computer Science',zh:'計算機概論',description:'Computer systems, information representation, algorithms and foundational computing concepts.',tags:['Fundamentals','Algorithms']}
+ {slug:'unity',color:'#3279c4',code:'CGV 01',icon:'◈',en:'Unity 3D Virtual Reality Applications',zh:'Unity 3D 虛擬實境應用',description:'Interactive 3D scenes, Unity scripting, physics, animation, UI and immersive prototyping.',tags:['Unity','3D','VR']},
+ {slug:'visualization',color:'#159b79',code:'CGV 02',icon:'▥',en:'Data Analysis and Visualization',zh:'資料分析與視覺化',description:'Visual encoding, data abstraction, D3.js dashboards, interactive visual analytics and design evaluation.',tags:['D3.js','Visual Analytics','Dashboard']},
+ {slug:'hci',color:'#e3a328',code:'CGV 03',icon:'◎',en:'Human–Computer Interaction',zh:'人機介面與互動設計',description:'Human-centered research, personas, scenarios, prototyping and usability evaluation.',tags:['HCI','UX','Prototyping']},
+ {color:'#8858c7',code:'CGV 04',icon:'⌘',en:'Assembly Language',zh:'組合語言',description:'Computer architecture fundamentals, instruction sets, low-level programming and debugging.',tags:['Architecture','Low-level']},
+ {color:'#c64c69',code:'CGV 05',icon:'◇',en:'Introduction to Computer Science',zh:'計算機概論',description:'Computer systems, information representation, algorithms and foundational computing concepts.',tags:['Fundamentals','Algorithms']}
 ]

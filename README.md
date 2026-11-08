@@ -1,87 +1,120 @@
-# IMPORTANT: GitHub Pages deployment for cchu-fju/CGVLab-FJU
+# CGV Lab — 輔仁大學電腦圖學與視覺化實驗室
 
-請先閱讀 [DEPLOY-FJU.md](DEPLOY-FJU.md)。正式網址：https://cchu-fju.github.io/CGVLab-FJU/
+Vue 3 + Vite + D3.js GitHub Pages 網站。這是 `cchu-fju/CGVLab-FJU` Repository 的完整根目錄版本。
 
----
+## 本次更新（2026-11）
 
-# CGV Lab · Computer Graphics and Visualization Lab
+- 全站文字增大：導覽、標題、研究卡片、教學課程、論文、頁尾、作品文字等。
+- 五色視覺識別：藍、綠、黃、紫、紅，套用於區塊邊線、標記、研究卡片、論文列、課程卡片。
+- 保留可暫停的流動雲霧動態背景，並支援 prefers-reduced-motion。
+- 研究計畫公開列表與導覽暫時移除；研究區標示「研究計畫目前申請中」。
+- Teaching 課程列表增加三個專屬頁面入口：Unity、資料分析與視覺化、HCI。
+- Unity：HW2–HW8 共 7 個作業區塊；每份作業 3 個 YouTube 欄位（21 個）；期末 10 組影片（10 個）；合計 31 個。
+- 資料分析與視覺化：HW1–HW3 共 3 個作業區塊；每份作業 3 個 YouTube 欄位（9 個）；期末 10 組影片（10 個）；合計 19 個。
+- HCI：期中 Low-fi 10 組圖片、期末 Hi-fi 10 組圖片，共 20 個圖片欄位。
+- 目前影片／圖片欄位為空白佔位，**未虛構學生作品**。填入實際連結或照片後，網站會自動顯示。
 
-The official-site starter for **Computer Graphics and Visualization Lab (CGV)** / **電腦圖學與視覺化實驗室**, Department of CSIE, Fu Jen Catholic University. Built with **Vue 3, Vite and D3.js**.
+## 如何執行
 
-## Features
-
-- Seven navigation sections: Home, Research, Publications, Projects, **Teaching**, Members, Contact.
-- **Actually animated clouds:** three independently drifting CSS/SVG atmospheric layers, different durations and directions. The mist moves continuously while scrolling and has a visible **Pause mist motion** button. System `prefers-reduced-motion` is respected.
-- D3.js draggable research network and selected-publication timeline.
-- Responsive design for desktop and mobile; native hash navigation.
-- GitHub Actions workflow deploys to GitHub Pages on every push to `main`.
-
-## Run locally
-
-Install Node.js **22** or newer and Git.
+建議安裝 Node.js 22 以上：
 
 ```bash
 npm install
 npm run dev
 ```
 
-Open http://localhost:5173 . Build for production:
+開啟 `http://localhost:5173/`。
+
+正式建置：
 
 ```bash
 npm run build
 npm run preview
 ```
 
-## Publish on GitHub Pages
+## 如何修改學生作品
 
-1. At https://github.com/new create a **Public** repository named `cgv-lab`. Do not initialize it with a README or `.gitignore`.
-2. From the *cgv-lab* project directory, run (replace `YOUR_USERNAME`):
+只需編輯 `src/courseContent.js`：
 
-```bash
-git init
-git add .
-git commit -m "Launch CGV Lab site with animated cloud background and Teaching"
-git branch -M main
-git remote add origin https://github.com/YOUR_USERNAME/cgv-lab.git
-git push -u origin main
+### YouTube
+
+例如 Unity 作業二的第一支影片：
+
+```js
+assignments: [
+  { title: '作業 2 · HW2', description: '', videos: [
+    'https://www.youtube.com/watch?v=XXXXXXXXXXX',
+    '',
+    ''
+  ] },
+  // 其餘作業 ...
+]
 ```
 
-3. In the repository, visit **Settings → Pages → Build and deployment → Source: GitHub Actions**.
-4. See the workflow at **Actions → Deploy CGV Lab to GitHub Pages**. When it succeeds, the site is at `https://YOUR_USERNAME.github.io/cgv-lab/`.
+**請保留每個作業 `videos` 三個位置**。如果要更簡便，亦可維持現有自動產生的陣列，於 `export const courseContent` 之後加入設定：
 
-The Vite config uses `base: './'`, so built asset paths work for both project and user Pages repositories. No API keys, server or backend are needed.
-
-### When editing later
-
-```bash
-git add .
-git commit -m "Update lab website"
-git push
+```js
+courseContent.unity.assignments[0].videos[0] = 'https://youtu.be/XXXXXXXXXXX'
+courseContent.unity.finalProjects[0].youtube = 'https://youtu.be/XXXXXXXXXXX'
+courseContent.unity.finalProjects[0].title = '作品名稱'
+courseContent.visualization.assignments[0].videos[0] = 'https://youtu.be/XXXXXXXXXXX'
+courseContent.visualization.finalProjects[0].youtube = 'https://youtu.be/XXXXXXXXXXX'
 ```
 
-## Content and customization
+`assignments[0]` 代表第一份列出的作業，因此 Unity 是 HW2；Visualization 是 HW1。`finalProjects[0]` 是第 1 組。支援 YouTube 標準網址、短網址、Shorts 網址、embed 網址或 11 碼 ID；會使用 YouTube 隱私增強模式播放器。
 
-| File | Purpose |
-| --- | --- |
-| `src/App.vue` | Page sections, text and navigation, including Teaching |
-| `src/data.js` | Research, selected papers, exploratory projects and courses |
-| `src/style.css` | Site style, responsive layout and cloud animation keyframes |
-| `src/components/MistBackground.vue` | Multi-layer procedural SVG cloud shapes and displacement filters |
-| `src/components/ResearchGraph.vue` | D3 force-directed research graph |
-| `src/components/PublicationChart.vue` | D3 publication-year chart |
-| `public/profile.jpg` | Provided illustrated academic image |
-| `.github/workflows/deploy.yml` | GitHub Pages deployment |
+### HCI 作品圖片
 
-**Course data:** Presented as an editable overview, not as a guarantee of current scheduling. Adjust according to the current university term.
+將圖片放到 `public/student-work/hci/`，例如 `public/student-work/hci/lowfi-group01.jpg`，再在 `src/courseContent.js` 的最後加入：
 
-**Bibliographic data:** `src/data.js` holds a starter curated subset copied from the previous project. Verify titles, years and record URLs against the linked [DBLP profile](https://dblp.org/pid/150/8066.html) before publishing; the statistics describe the selected dataset, not the full record.
+```js
+courseContent.hci.galleries[0].items[0].image = 'student-work/hci/lowfi-group01.jpg'
+courseContent.hci.galleries[0].items[0].title = '低擬真原型題目'
+courseContent.hci.galleries[1].items[0].image = 'student-work/hci/hifi-group01.jpg'
+courseContent.hci.galleries[1].items[0].title = '高擬真原型題目'
+```
 
-**Research projects:** Exploratory directions, not funding announcements. Add real lab members only with their consent.
+其中 `galleries[0]` 為期中 Low-fi、`galleries[1]` 為期末 Hi-fi。圖片請先取得學生公開展示同意。
 
-## Motion and accessibility
+## 課程網址
 
-Clouds are actual animated SVG and CSS visual layers—not a static screenshot or video. Multiple non-synchronized motion layers create a gentle drifting appearance; pause button and reduced-motion support help accessibility. The site requires no network calls for clouds or D3 visualization. Google Fonts are optional; fallback system fonts are defined.
+- `https://cchu-fju.github.io/CGVLab-FJU/#/course/unity`
+- `https://cchu-fju.github.io/CGVLab-FJU/#/course/visualization`
+- `https://cchu-fju.github.io/CGVLab-FJU/#/course/hci`
 
-## License and attribution
+以上使用 hash-based routing，部署在 GitHub Pages 不需要設定 SPA 404 fallback。
 
-The university name identifies institutional affiliation. The supplied portrait remains user-provided content; replace it or obtain appropriate permissions before public redistribution. Icons/logos of the university are not reproduced as official assets.
+## GitHub Pages 部署
+
+`vite.config.js` 已設定 `base: '/CGVLab-FJU/'`。
+
+1. 把 ZIP 解壓縮後的 **所有內容直接上傳到 Repository 根目錄**，不是另一層資料夾。
+2. 確認根目錄有 `package.json`, `index.html`, `vite.config.js`, `src/`, `.github/workflows/deploy.yml`。
+3. GitHub → Settings → Pages → Build and deployment → Source 設為 **GitHub Actions**。
+4. 推送到 `main`，或在 Actions 內手動執行 `Deploy CGV Lab to GitHub Pages`。
+5. 部署成功後瀏覽 `https://cchu-fju.github.io/CGVLab-FJU/`。
+
+Windows CMD 範例（請從專案資料夾執行；不要在 `C:\Windows\System32` 操作）：
+
+```bat
+cd /d "%USERPROFILE%\CGVLab-FJU"
+git add -A
+git commit -m "Expand CGV Lab teaching showcases and colorful UI"
+git push origin main
+```
+
+`git push` 若出現認證錯誤，請先修復 Git Credential Manager。GitHub Pages 必須等 push 與 Actions 都成功才會更新。
+
+## 主要檔案
+
+- `src/App.vue`：首頁與主要導覽
+- `src/style.css`：字體、顏色、雲霧、響應式樣式
+- `src/data.js`：研究方向、論文與課程概要
+- `src/courseContent.js`：作業影片、期末專案與 HCI 圖片資料（主要編輯處）
+- `src/components/CourseDetail.vue`：三個課程共用展示頁
+- `src/components/MistBackground.vue`：動態雲霧
+- `src/components/ResearchGraph.vue`、`PublicationChart.vue`：D3.js 互動圖表
+
+## 提醒
+
+學生作品照片及 YouTube 影片由網站維護者填入，請確認公開權限及學生授權。檔案中的教師簡介和論文為示例內容，對外發布前建議再核對官方資料與 DBLP。
