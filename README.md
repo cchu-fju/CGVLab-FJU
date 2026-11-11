@@ -118,3 +118,16 @@ git push origin main
 ## 提醒
 
 學生作品照片及 YouTube 影片由網站維護者填入，請確認公開權限及學生授權。檔案中的教師簡介和論文為示例內容，對外發布前建議再核對官方資料與 DBLP。
+
+## 2026-11-11 動態背景增強版
+
+這個版本依照 `cchu-fju/CGVLab-FJU` 既有的 Vue 3 + D3.js、五色識別與 Teaching 結構修改。
+
+- 原有 CSS 雲層位移時間偏長、雲層透明，容易看起來像固定背景。本次改為可辨識的 **17／19／21 秒多層霧帶**、**11／14 秒 SVG 流線**、漂浮細點。
+- 動畫採 CSS + SVG 實作，**不需要 YouTube、D3 或外部背景影片才能運作**。
+- 保留右下角暫停按鈕，並明確顯示繁體中文狀態。
+- 五色區塊標記、捲動淡入、加大字體，延續現有首頁 Research / Publications / Teaching / People / Contact 分區。
+- 保留 Unity / Visualization / HCI 學生作品所有空白欄位；保留研究計畫申請中的公開標示，不虛構成果。
+- 系統設定減少動畫 (`prefers-reduced-motion`) 時，基於無障礙考量會停止背景動畫。
+
+**部署與動畫故障排除請見 `DEPLOY-ANIMATED.md`。**

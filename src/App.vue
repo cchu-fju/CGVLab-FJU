@@ -40,10 +40,10 @@
     <section id="contact" class="section contact-section section-red"><div class="container"><span class="eyebrow">05 / CONTACT</span><h2>Let's Collaborate.</h2><p>Research collaboration, student projects and academic exchange are welcome.</p><div class="contact-grid"><div><strong>Lab</strong><p>Computer Graphics and Visualization Lab (CGV)<br/>電腦圖學與視覺化實驗室</p></div><div><strong>Institution</strong><p>Department of Computer Science and Information Engineering<br/>Fu Jen Catholic University · Taiwan</p></div><div><strong>Contact</strong><p><a href="mailto:cchu@csie.fju.edu.tw">cchu@csie.fju.edu.tw</a><br/>Office: SF627 · Ext. 3701</p></div></div></div></section>
   </main>
   <footer><div class="container footer-inner"><span>© {{new Date().getFullYear()}} CGV Lab · Fu Jen Catholic University</span><span>Vue 3 · D3.js · Animated Atmospheric UI</span></div></footer>
-  <button type="button" class="motion-switch" :aria-pressed="!motionEnabled" @click="motionEnabled=!motionEnabled">{{motionEnabled?'Pause mist motion':'Resume mist motion'}}</button>
+  <button type="button" class="motion-switch" :aria-pressed="!motionEnabled" @click="motionEnabled=!motionEnabled">{{motionEnabled?'雲霧流動中 · 暫停動畫':'動畫已暫停 · 恢復流動'}}</button>
 </template>
 <script setup>
-import {ref,computed,watch,onMounted} from 'vue'
+import {ref,computed,watch,onMounted,onUnmounted,nextTick} from 'vue'
 import MistBackground from './components/MistBackground.vue'
 import ResearchGraph from './components/ResearchGraph.vue'
 import PublicationChart from './components/PublicationChart.vue'
@@ -52,9 +52,18 @@ import {research,papers,courses} from './data'
 const profileUrl=import.meta.env.BASE_URL+'profile.jpg'
 const nav=[{id:'home',name:'Home'},{id:'research',name:'Research'},{id:'publications',name:'Publications'},{id:'teaching',name:'Teaching'},{id:'members',name:'Members'},{id:'contact',name:'Contact'}]
 const filter=ref('all'),query=ref(''),menuOpen=ref(false),motionEnabled=ref(true)
+let revealObserver=null
+function setReveals(){
+  if (!('IntersectionObserver' in window) || window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+  revealObserver?.disconnect()
+  revealObserver=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('is-visible');revealObserver?.unobserve(entry.target)}})},{threshold:.08})
+  document.querySelectorAll('.section-head,.research-card,.panel,.course-card,.member').forEach(el=>{el.classList.add('reveal-ready');revealObserver.observe(el)})
+}
 const courseSlug=ref('')
 function syncRoute(){const match=location.hash.match(/^#\/course\/(unity|visualization|hci)$/);courseSlug.value=match?match[1]:'';if(match)window.scrollTo({top:0,behavior:'instant'})}
-onMounted(()=>{syncRoute();window.addEventListener('hashchange',syncRoute)})
+onMounted(()=>{syncRoute();window.addEventListener('hashchange',syncRoute);nextTick(setReveals)})
+onUnmounted(()=>{window.removeEventListener('hashchange',syncRoute);revealObserver?.disconnect()})
+watch(courseSlug,()=>nextTick(setReveals))
 const filtered=computed(()=>papers.filter(p=>(filter.value==='all'||p.tags.includes(filter.value))&&`${p.title} ${p.venue}`.toLowerCase().includes(query.value.toLowerCase())))
 onMounted(()=>{if(window.matchMedia('(prefers-reduced-motion: reduce)').matches)motionEnabled.value=false})
 watch(motionEnabled,v=>document.documentElement.classList.toggle('motion-paused',!v),{immediate:true})
